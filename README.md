@@ -6,7 +6,7 @@
 ---
 
 ### Dependencies:
-* Python 3.5.x
+* Python 3.12.x
 * NumPy
 * CV2
 * matplotlib
