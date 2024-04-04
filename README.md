@@ -10,8 +10,8 @@ Phải chạy các lênh sau trên terminal:
 * pip install moviepy (cài thư viện moviepy )
 Sau khi chạy xong sẽ tự động tạo ra thêm 2 folder là my_venv và '__pycache__'. Do có .gitignore nên pycache không cần push lên github.
 ## Chạy chương trình
-py process.py
-
+* py process.py
+Sau khi chạy xong chường sẽ tự tạo thêm 2 folder là output_images và output_videos dữ liệu chứa đầu ra.
 ---  
 ## Advanced Lane Detection for Self-Driving Cars
 
