@@ -5,15 +5,21 @@
 > ***Click the GIF abobe for link to YouTube video of the result***
 
 ---
-
+### Cài venv
+'>>>py -m venv my_venv
+'>>>.\my_venv\Scripts\activate
 ### Dependencies:
 * Python 3.12.x
-* NumPy 1.26.x
-* CV2
-* matplotlib
+* NumPy 1.26.x; 
+pip install numpy
+* CV2 4.9.0; 
+pip install opencv-python
+* matplotlib;  
+pip install matplotlib
 * glob
 * PIL
-* moviepy
+* moviepy 
+pip install moviepy
 
 
 ### Objectives:
