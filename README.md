@@ -8,7 +8,7 @@
 
 ### Dependencies:
 * Python 3.12.x
-* NumPy
+* NumPy 1.26.x
 * CV2
 * matplotlib
 * glob
