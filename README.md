@@ -21,6 +21,7 @@ pip install matplotlib
 * moviepy 
 pip install moviepy
 
+py process.py
 
 ### Objectives:
 
