@@ -1,27 +1,29 @@
-# Self-Driving Cars
+# Đồ án nghiên cứu Áp dụng Computer Vision in Self-Driving Car
+---
+## Sau khi clone về, nếu chạy lần đầu phải chạy trên terminal
+* py -m venv my_venv (tạo virtual enveriment)
+* .\my_venv\Scripts\activate (kích hoạt virtual enveriment)
+* pip install numpy (cài thư viện numpy)
+* pip install matplotlib (cài thư viện matplotlib)
+* pip install opencv-python (cài thư viện cv2)
+* pip install moviepy (cài thư viện moviepy )
+
+## Chạy chương trình
+py process.py
+  
 ## Advanced Lane Detection for Self-Driving Cars
 
-[![Video White](output_videos/gif_out_track1.gif?raw=true)](https://youtu.be/Boe5HvpGnMQ)  
-> ***Click the GIF abobe for link to YouTube video of the result***
-
----
-### Cài venv
-'>>>py -m venv my_venv
-'>>>.\my_venv\Scripts\activate
 ### Dependencies:
 * Python 3.12.x
 * NumPy 1.26.x; 
-pip install numpy
 * CV2 4.9.0; 
-pip install opencv-python
 * matplotlib;  
-pip install matplotlib
 * glob
 * PIL
 * moviepy 
-pip install moviepy
 
-py process.py
+
+
 
 ### Objectives:
 
