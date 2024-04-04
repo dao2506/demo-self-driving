@@ -1,16 +1,18 @@
 # Đồ án nghiên cứu Áp dụng Computer Vision in Self-Driving Car
 ---
-## Sau khi clone về, nếu chạy lần đầu phải chạy trên terminal
+## Sau khi clone về, chạy lần đầu 
+Phải chạy các lênh sau trên terminal:
 * py -m venv my_venv (tạo virtual enveriment)
 * .\my_venv\Scripts\activate (kích hoạt virtual enveriment)
 * pip install numpy (cài thư viện numpy)
 * pip install matplotlib (cài thư viện matplotlib)
 * pip install opencv-python (cài thư viện cv2)
 * pip install moviepy (cài thư viện moviepy )
-
+Sau khi chạy xong sẽ tự động tạo ra thêm 2 folder là my_venv và '__pycache__'. Do có .gitignore nên pycache không cần push lên github.
 ## Chạy chương trình
 py process.py
-  
+
+---  
 ## Advanced Lane Detection for Self-Driving Cars
 
 ### Dependencies:
