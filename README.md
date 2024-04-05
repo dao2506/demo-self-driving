@@ -2,7 +2,7 @@
 ---
 ## Sau khi clone về, chạy lần đầu 
 Phải chạy các lênh sau trên terminal:
-* py -m venv my_venv (tạo virtual enveriment)
+* py -m venv my_venv (tạo virtual enveroment)
 * .\my_venv\Scripts\activate (kích hoạt virtual enveriment)
 * pip install numpy (cài thư viện numpy)
 * pip install matplotlib (cài thư viện matplotlib)
@@ -12,6 +12,10 @@ Sau khi chạy xong sẽ tự động tạo ra thêm 2 folder là my_venv và '_
 ## Chạy chương trình
 * py process.py
 Sau khi chạy xong chường sẽ tự tạo thêm folder output_videos dữ liệu chứa đầu ra.
+
+## Cài Yolo v8
+pip install ultralytics 
+
 ---  
 ## Advanced Lane Detection for Self-Driving Cars
 
