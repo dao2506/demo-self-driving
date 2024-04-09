@@ -13,13 +13,15 @@ from moviepy.editor import VideoFileClip
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #input_type = 'image'
 input_type = 'video' 
-#input_type = 'frame_by_frame'
+# input_type = 'frame_by_frame'
 
 #input_name = 'test_images/test3.jpg'
 #input_name = 'test_images/calibration1.jpg'
 #input_name = 'project_video.mp4' 
 input_name = 'challenge_video.mp4'
 #input_name = 'harder_challenge_video.mp4'
+
+# input_name = 'th1.mp4'
 
 # If input_type is `image`, select whether you'd like to save intermediate images or not. 
 save_img = True
