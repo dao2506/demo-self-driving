@@ -87,7 +87,7 @@ pip install ultralytics
 
 ---
 # Link báo cáo: 
-[//](https://studenthcmusedu-my.sharepoint.com/:w:/r/personal/18127042_student_hcmus_edu_vn/_layouts/15/Doc.aspx?sourcedoc=%7BEF86C5AB-22EA-48E1-9AA0-CD07EFAC2589%7D&file=B%C3%A1o%20c%C3%A1o%20m%C3%B4n%20TGMT.docx&action=default&mobileredirect=true&DefaultItemOpen=1&web=1)
+[Onedrive](https://studenthcmusedu-my.sharepoint.com/:w:/r/personal/18127042_student_hcmus_edu_vn/_layouts/15/Doc.aspx?sourcedoc=%7BEF86C5AB-22EA-48E1-9AA0-CD07EFAC2589%7D&file=B%C3%A1o%20c%C3%A1o%20m%C3%B4n%20TGMT.docx&action=default&mobileredirect=true&DefaultItemOpen=1&web=1)
 
 
 
