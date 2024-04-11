@@ -23,10 +23,10 @@ pip install ultralytics
 * Python 3.12.x
 * NumPy 1.26.x; 
 * CV2 4.9.0; 
-* matplotlib;  
+* matplotlib 3.8.x;  
 * glob
-* PIL
-* moviepy 
+* pillow 10.3.x;
+* moviepy >= 1.0.3;
 
 
 
