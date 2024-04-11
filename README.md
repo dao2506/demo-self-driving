@@ -84,11 +84,11 @@ pip install ultralytics
 [`line.py`](line.py) : Line class, contains functions to detect lane lines <br />
 [`threshold.py`](threshold.py) : Contains functions for thresholding an image <br />
 [`process.py`](process.py) : Contains the image processing pipeline and main function <br />
-[`find_parameters.py`](find_parameters.py) : Run GUI tool to find right parameters for various inputs <br />
-[`guiutils.py`](guiutils.py) : GUI builder class
-
 
 ---
+# để link báo cáo
+
+
 
 ### Pipeline 
 
