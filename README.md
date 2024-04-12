@@ -23,11 +23,13 @@ Sau khi chạy xong chường sẽ tự tạo thêm folder output_videos dữ li
 * Python 3.12.x
 * NumPy 1.26.x; 
 * CV2 4.9.0; 
-* matplotlib;  
+* matplotlib 3.8.x;  
 * glob
-* PIL
-* moviepy 
+* pillow 10.3.x;
+* moviepy >= 1.0.3;
 
 ## Article
 [Báo cáo nghiên cứu](https://studenthcmusedu-my.sharepoint.com/:w:/g/personal/18127042_student_hcmus_edu_vn/EavFhu_qIuFImqDNB--sJYkBWLkwg2PmecThZ2p99EAoOg?e=L3a4Kb)
 
+## Demo
+[Lane detection + YOLO object detection](https://www.youtube.com/watch?v=Xq-0cp_9mHQ)
