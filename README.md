@@ -188,15 +188,6 @@ In my pipeline, parameters can be tuned in [`process.py`](process.py).
 
 To Update parameters, modify this code: [Parameter Tuning](https://github.com/maunesh/advanced-lane-detection-for-self-driving-cars/blob/master/process.py#L31)
 
-I implemented a GUI tool - similar to the one I had implemented in Basic Lane Line Detection. 
-This was very helpful to determine better parameters for the Challenge Video.  The code for this tool is contained in [`guiutils.py`](guiutils.py) and [`find_parameters.py`](find_parameters.py) <br />
-
-* Below is a demo of the GUI tool:
-
-Here I am trying to determine the correct threshold values for Gradient in X direction and Gradient in Y direction. 
-
-[![Video White](gui_tool_demo/ezgif_com-video-to-gif.gif?raw=true)]
-
 ### 9. Illustrating Lane Lines on image/frames
 Once we have detected the lane lines, we can illustrate the lane on the current frame/image, by overlaying color pixels on top of the image. 
 I am illustrating Lane Lines, Measurement Info and the Birds-Eye View on each frame, using following functions: <br />
