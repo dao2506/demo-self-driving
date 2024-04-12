@@ -12,14 +12,14 @@ from moviepy.editor import VideoFileClip
 #       Select desired input name/type          #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # input_type = 'image'
-# input_type = 'video' 
-input_type = 'frame_by_frame'
+input_type = 'video' 
+# input_type = 'frame_by_frame'
 
 # input_name = 'test_images/test5.jpg'
 # input_name = 'test_images/calibration1.jpg'
-input_name = 'project_video.mp4' 
+# input_name = 'project_video.mp4' 
 # input_name = 'challenge_video.mp4'
-# input_name = 'harder_challenge_video.mp4'
+input_name = 'harder_challenge_video.mp4'
 
 # If input_type is `image`, select whether you'd like to save intermediate images or not. 
 save_img = True
@@ -224,11 +224,11 @@ if __name__ == '__main__':
 
     # If working with video mode, use moviepy and process each frame and save the video.
     elif input_type == 'video':
-        # white_output = "./output_videos/video_out.mp4"
-        # frame = VideoFileClip(input_name)
-        # white_clip = frame.fl_image(pipeline)
-        # white_clip.write_videofile(white_output, audio=False)
-        print("The video mode is error")
+        white_output = "./output_videos/video_out.mp4"
+        frame = VideoFileClip(input_name)
+        white_clip = frame.fl_image(pipeline)
+        white_clip.write_videofile(white_output, audio=False)
+        # print("The video mode is error")
 
 
 
