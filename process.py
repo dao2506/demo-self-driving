@@ -46,12 +46,8 @@ mtx, dist = calib()
 
 def pipeline(frame):
 
-    # Object detection
-    object_dec = object_detection(frame)
-    result_object = cv2.imread('./output_images/inference/image0.jpg')
-
     # Correcting for Distortion
-    undist_img = undistort(result_object, mtx, dist)
+    undist_img = undistort(frame, mtx, dist)
     
     # resize video
     undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
@@ -115,52 +111,51 @@ if __name__ == '__main__':
             # Object detection
             object_dec = object_detection(frame)
             result_object = cv2.imread('./output_images/inference/image0.jpg')
-            try: 
-                # Correcting for Distortion
-                undist_img = undistort(result_object, mtx, dist)
-                # resize video
-                undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
-                rows, cols = undist_img.shape[:2]
 
-                combined_gradient = get_combined_gradients(undist_img, th_sobelx, th_sobely, th_mag, th_dir)
+            # Correcting for Distortion
+            undist_img = undistort(result_object, mtx, dist)
+            # resize video
+            undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
+            rows, cols = undist_img.shape[:2]
 
-                combined_hls = get_combined_hls(undist_img, th_h, th_l, th_s)
+            combined_gradient = get_combined_gradients(undist_img, th_sobelx, th_sobely, th_mag, th_dir)
 
-                combined_result = combine_grad_hls(combined_gradient, combined_hls)
+            combined_hls = get_combined_hls(undist_img, th_h, th_l, th_s)
 
-                c_rows, c_cols = combined_result.shape[:2]
-                s_LTop2, s_RTop2 = [c_cols / 2 - 24, 5], [c_cols / 2 + 24, 5]
-                s_LBot2, s_RBot2 = [110, c_rows], [c_cols - 110, c_rows]
+            combined_result = combine_grad_hls(combined_gradient, combined_hls)
 
-                src = np.float32([s_LBot2, s_LTop2, s_RTop2, s_RBot2])
-                dst = np.float32([(170, 720), (170, 0), (550, 0), (550, 720)])
+            c_rows, c_cols = combined_result.shape[:2]
+            s_LTop2, s_RTop2 = [c_cols / 2 - 24, 5], [c_cols / 2 + 24, 5]
+            s_LBot2, s_RBot2 = [110, c_rows], [c_cols - 110, c_rows]
 
-                warp_img, M, Minv = get_perspective_transform(combined_result, src, dst, (720, 720))
+            src = np.float32([s_LBot2, s_LTop2, s_RTop2, s_RBot2])
+            dst = np.float32([(170, 720), (170, 0), (550, 0), (550, 720)])
 
-                searching_img = get_lane_lines_img(warp_img, left_line, right_line)
+            warp_img, M, Minv = get_perspective_transform(combined_result, src, dst, (720, 720))
 
-                w_comb_result, w_color_result = illustrate_driving_lane(searching_img, left_line, right_line)
+            searching_img = get_lane_lines_img(warp_img, left_line, right_line)
 
-                # Drawing the lines back down onto the road
-                color_result = cv2.warpPerspective(w_color_result, Minv, (c_cols, c_rows))
-                lane_color = np.zeros_like(undist_img)
-                lane_color[220:rows - 12, 0:cols] = color_result
+            w_comb_result, w_color_result = illustrate_driving_lane(searching_img, left_line, right_line)
 
-                # Combine the result with the original image
-                result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
+            # Drawing the lines back down onto the road
+            color_result = cv2.warpPerspective(w_color_result, Minv, (c_cols, c_rows))
+            lane_color = np.zeros_like(undist_img)
+            lane_color[220:rows - 12, 0:cols] = color_result
+
+            # Combine the result with the original image
+            result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
 
 
-                info_panel, birdeye_view_panel = np.zeros_like(result),  np.zeros_like(result)
-                info_panel[5:110, 5:325] = (255, 255, 255)
-                birdeye_view_panel[5:110, cols-111:cols-6] = (255, 255, 255)
-                
-                info_panel = cv2.addWeighted(result, 1, info_panel, 0.2, 0)
-                birdeye_view_panel = cv2.addWeighted(info_panel, 1, birdeye_view_panel, 0.2, 0)
-                road_map = illustrate_driving_lane_with_topdownview(w_color_result, left_line, right_line)
-                birdeye_view_panel[10:105, cols-106:cols-11] = road_map
-                birdeye_view_panel = illustrate_info_panel(birdeye_view_panel, left_line, right_line)
-            except Exception:
-                print("WARNING: can NOT detect lane. Please drive manually!!!")
+            info_panel, birdeye_view_panel = np.zeros_like(result),  np.zeros_like(result)
+            info_panel[5:110, 5:325] = (255, 255, 255)
+            birdeye_view_panel[5:110, cols-111:cols-6] = (255, 255, 255)
+            
+            info_panel = cv2.addWeighted(result, 1, info_panel, 0.2, 0)
+            birdeye_view_panel = cv2.addWeighted(info_panel, 1, birdeye_view_panel, 0.2, 0)
+            road_map = illustrate_driving_lane_with_topdownview(w_color_result, left_line, right_line)
+            birdeye_view_panel[10:105, cols-106:cols-11] = road_map
+            birdeye_view_panel = illustrate_info_panel(birdeye_view_panel, left_line, right_line)
+            
             
             # test/debug
             cv2.imshow('road info', birdeye_view_panel)
@@ -247,8 +242,13 @@ if __name__ == '__main__':
 
     # If working with video mode, use moviepy and process each frame and save the video.
     elif input_type == 'video':
+        #object detection
         white_output = "./output_videos/video_out.mp4"
-        frame = VideoFileClip(input_name)
+        yolo_model = YOLO('yolov8m.pt')
+        results = yolo_model(input_name, save=True, project="./output_videos", name="inference", exist_ok=True)
+
+        white_output_object = ("./output_videos/inference/" + input_name).replace(".mp4",".avi")
+        frame = VideoFileClip(white_output_object)
         white_clip = frame.fl_image(pipeline)
         white_clip.write_videofile(white_output, audio=False)
 
