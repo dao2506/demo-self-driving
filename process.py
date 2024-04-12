@@ -6,20 +6,27 @@ from camera_calibration import calib, undistort
 from threshold import get_combined_gradients, get_combined_hls, combine_grad_hls
 from line import Line, get_perspective_transform, get_lane_lines_img, illustrate_driving_lane, illustrate_info_panel, illustrate_driving_lane_with_topdownview
 from moviepy.editor import VideoFileClip
+import ultralytics
+from ultralytics import YOLO
 
+
+def object_detection(img):
+    yolo_model = YOLO('yolov8m.pt')
+    img_detector = yolo_model(img, save=True, project="output_images", name="inference", exist_ok=True)
+    return img_detector
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #       Select desired input name/type          #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# input_type = 'image'
-input_type = 'video' 
-# input_type = 'frame_by_frame'
+#input_type = 'image'
+input_type = 'video'
+#input_type = 'frame_by_frame'
 
-# input_name = 'test_images/test5.jpg'
-# input_name = 'test_images/calibration1.jpg'
-# input_name = 'project_video.mp4' 
-# input_name = 'challenge_video.mp4'
-input_name = 'harder_challenge_video.mp4'
+#input_name = 'test_images/test1.jpg'
+#input_name = 'test_images/calibration1.jpg'
+#input_name = 'project_video.mp4'
+input_name = 'challenge_video.mp4'
+#input_name = 'harder_challenge_video.mp4'
 
 # If input_type is `image`, select whether you'd like to save intermediate images or not. 
 save_img = True
@@ -38,8 +45,13 @@ mtx, dist = calib()
 
 
 def pipeline(frame):
+
+    # Object detection
+    object_dec = object_detection(frame)
+    result_object = cv2.imread('./output_images/inference/image0.jpg')
+
     # Correcting for Distortion
-    undist_img = undistort(frame, mtx, dist)
+    undist_img = undistort(result_object, mtx, dist)
     
     # resize video
     undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
@@ -72,6 +84,8 @@ def pipeline(frame):
     # Combine the result with the original image
     result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
 
+
+
     info_panel, birdeye_view_panel = np.zeros_like(result),  np.zeros_like(result)
     info_panel[5:110, 5:325] = (255, 255, 255)
     birdeye_view_panel[5:110, cols-111:cols-6] = (255, 255, 255)
@@ -81,6 +95,7 @@ def pipeline(frame):
     road_map = illustrate_driving_lane_with_topdownview(w_color_result, left_line, right_line)
     birdeye_view_panel[10:105, cols-106:cols-11] = road_map
     birdeye_view_panel = illustrate_info_panel(birdeye_view_panel, left_line, right_line)
+
     
     return birdeye_view_panel      
 
@@ -96,14 +111,17 @@ if __name__ == '__main__':
         while (cap.isOpened()):
             _, frame = cap.read()
             
-            frame_num += 1   # increment frame_num, used for naming saved images 
-
-            # Correcting for Distortion
-            undist_img = undistort(frame, mtx, dist)
-            # resize video
-            undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
-            rows, cols = undist_img.shape[:2]
+            frame_num += 1   # increment frame_num, used for naming saved images
+            # Object detection
+            object_dec = object_detection(frame)
+            result_object = cv2.imread('./output_images/inference/image0.jpg')
             try: 
+                # Correcting for Distortion
+                undist_img = undistort(result_object, mtx, dist)
+                # resize video
+                undist_img = cv2.resize(undist_img, None, fx=1 / 2, fy=1 / 2, interpolation=cv2.INTER_AREA)
+                rows, cols = undist_img.shape[:2]
+
                 combined_gradient = get_combined_gradients(undist_img, th_sobelx, th_sobely, th_mag, th_dir)
 
                 combined_hls = get_combined_hls(undist_img, th_h, th_l, th_s)
@@ -131,6 +149,7 @@ if __name__ == '__main__':
                 # Combine the result with the original image
                 result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
 
+
                 info_panel, birdeye_view_panel = np.zeros_like(result),  np.zeros_like(result)
                 info_panel[5:110, 5:325] = (255, 255, 255)
                 birdeye_view_panel[5:110, cols-111:cols-6] = (255, 255, 255)
@@ -140,19 +159,19 @@ if __name__ == '__main__':
                 road_map = illustrate_driving_lane_with_topdownview(w_color_result, left_line, right_line)
                 birdeye_view_panel[10:105, cols-106:cols-11] = road_map
                 birdeye_view_panel = illustrate_info_panel(birdeye_view_panel, left_line, right_line)
-                
-                
-                # test/debug
-                cv2.imshow('road info', birdeye_view_panel)
-                # out.write(frame)
-                if cv2.waitKey(1) & 0xFF == ord('s'):
-                    cv2.waitKey(0)
-                #if cv2.waitKey(1) & 0xFF == ord('r'):
-                #    cv2.imwrite('check1.jpg', undist_img)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-            except Exception: 
-                print("!!!WARNING: Can't detection lane. Please drive manually!!!")
+            except Exception:
+                print("WARNING: can NOT detect lane. Please drive manually!!!")
+            
+            # test/debug
+            cv2.imshow('road info', birdeye_view_panel)
+            # out.write(frame)
+            if cv2.waitKey(1) & 0xFF == ord('s'):
+                cv2.waitKey(0)
+            #if cv2.waitKey(1) & 0xFF == ord('r'):
+            #    cv2.imwrite('check1.jpg', undist_img)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
         cap.release()
         cv2.destroyAllWindows()
 
@@ -216,9 +235,13 @@ if __name__ == '__main__':
         # Combine the result with the original image
         result = cv2.addWeighted(undist_img, 1, comb_result, 0.3, 0)
         if save_img == True:
-            cv2.imwrite('./output_images/13_final_result.png', result) 
+            cv2.imwrite('./output_images/13_final_result.png', result)
+
+        # Object detection
+        object_dec = object_detection(result)
+        result_object = cv2.imread('./output_images/inference/image0.jpg')
         
-        cv2.imshow('result',result)
+        cv2.imshow('result',result_object)
         cv2.waitKey(0)
    
 
@@ -228,7 +251,6 @@ if __name__ == '__main__':
         frame = VideoFileClip(input_name)
         white_clip = frame.fl_image(pipeline)
         white_clip.write_videofile(white_output, audio=False)
-        # print("The video mode is error")
 
 
 
