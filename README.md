@@ -8,6 +8,7 @@ Phải chạy các lênh sau trên terminal:
 * pip install matplotlib (cài thư viện matplotlib)
 * pip install opencv-python (cài thư viện cv2)
 * pip install moviepy (cài thư viện moviepy )
+* pip install ipython
 Sau khi chạy xong sẽ tự động tạo ra thêm 2 folder là my_venv và '__pycache__'. Do có .gitignore nên pycache không cần push lên github.
 ## Chạy chương trình
 * py process.py
